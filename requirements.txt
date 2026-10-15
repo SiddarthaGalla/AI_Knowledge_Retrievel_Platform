@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-multipart
+pypdf
+python-docx
+pandas
+sentence-transformers
+chromadb
+faster-whisper
+av
+requests

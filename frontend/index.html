@@ -1,0 +1,4911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Neural Knowledge Hub</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(255, 45, 149, 0.14),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 85% 70%,
+                    rgba(0, 198, 255, 0.12),
+                    transparent 30%
+                ),
+                #070a13;
+
+            color: #f4f1f7;
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font-family: inherit;
+        }
+
+        .background-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-one {
+            top: 5%;
+            left: -150px;
+            background: rgba(255, 0, 128, 0.18);
+        }
+
+        .glow-two {
+            right: -150px;
+            bottom: 5%;
+            background: rgba(0, 198, 255, 0.15);
+        }
+
+        .app {
+            width: min(1350px, 94%);
+            margin: auto;
+            padding: 25px 0 40px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 30px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff2d95,
+                    #8b5cf6
+                );
+
+            font-weight: 800;
+            color: white;
+
+            box-shadow:
+                0 0 25px
+                rgba(255, 45, 149, 0.35);
+        }
+
+        .brand h2 {
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .brand span {
+            font-size: 11px;
+            color: #777b91;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #75e6a7;
+            letter-spacing: 1px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #48e78b;
+
+            box-shadow:
+                0 0 12px #48e78b;
+        }
+
+        .hero {
+            min-height: 310px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 55px 30px;
+            margin-bottom: 30px;
+
+            border:
+                1px solid
+                rgba(255, 45, 149, 0.16);
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(18, 20, 35, 0.96),
+                    rgba(10, 14, 27, 0.92)
+                );
+        }
+
+        .japanese-label {
+            color: #ff3d9d;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 76px);
+            line-height: 1.05;
+            letter-spacing: -3px;
+        }
+
+        .hero h1 span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff2d95,
+                    #9b5cff,
+                    #00c6ff
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            color: #9699aa;
+            font-size: 15px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .hero-tags span {
+            padding: 6px 10px;
+            border: 1px solid #2b3043;
+            border-radius: 5px;
+            color: #aeb2c4;
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .hero-symbol {
+            padding-right: 70px;
+        }
+
+        .circle {
+            width: 180px;
+            height: 180px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255, 45, 149, 0.45);
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255, 45, 149, 0.18),
+                    transparent 65%
+                );
+
+            box-shadow:
+                0 0 70px
+                rgba(255, 45, 149, 0.16);
+
+            color: #ff4ca3;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            border: 1px solid #1d2334;
+            border-radius: 20px;
+            background: rgba(13, 17, 30, 0.96);
+            padding: 28px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.22);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .card-number {
+            color: #ff3d9d;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .card h2 {
+            margin-top: 7px;
+            font-size: 24px;
+        }
+
+        .card-header p {
+            color: #777b91;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+            color: #ff4ca3;
+
+            background:
+                rgba(255, 45, 149, 0.10);
+        }
+
+        .upload-area {
+            min-height: 310px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            border:
+                1px dashed
+                rgba(255, 45, 149, 0.35);
+
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .upload-symbol {
+            width: 62px;
+            height: 62px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                rgba(255, 45, 149, 0.12);
+
+            color: #ff4ca3;
+            font-size: 32px;
+        }
+
+        .upload-area h3 {
+            margin-top: 18px;
+            font-size: 17px;
+        }
+
+        .upload-area p {
+            color: #70758a;
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-button {
+            width: 90%;
+            max-width: 500px;
+
+            margin-top: 20px;
+            padding: 12px;
+
+            text-align: center;
+
+            border:
+                1px solid #292f43;
+
+            border-radius: 8px;
+
+            color: #aeb2c4;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .file-button:hover {
+            border-color: #ff2d95;
+            color: white;
+        }
+
+        .primary-button {
+            width: 90%;
+            max-width: 500px;
+
+            margin-top: 12px;
+            padding: 13px 18px;
+
+            border: none;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #e31c78,
+                    #9655f4
+                );
+
+            color: white;
+            font-weight: 800;
+            font-size: 11px;
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 25px
+                rgba(227, 28, 120, 0.20);
+
+            transition: 0.25s;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(227, 28, 120, 0.35);
+        }
+
+        .primary-button:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .status-message {
+            margin-top: 12px;
+            color: #70e7a0;
+            font-size: 11px;
+        }
+
+        .query-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: #7d8296;
+            font-size: 9px;
+            letter-spacing: 2px;
+        }
+
+        .voice-query-box {
+            position: relative;
+        }
+
+        #queryInput {
+            width: 100%;
+            min-height: 135px;
+
+            resize: vertical;
+
+            padding:
+                18px 60px 18px 18px;
+
+            background: #080c16;
+
+            border:
+                1px solid #273047;
+
+            border-radius: 13px;
+
+            color: white;
+            outline: none;
+            font-size: 13px;
+        }
+
+        #queryInput:focus {
+            border-color: #d72a89;
+
+            box-shadow:
+                0 0 20px
+                rgba(215, 42, 137, 0.10);
+        }
+
+        #queryInput::placeholder {
+            color: #42495c;
+        }
+
+        .voice-button {
+            position: absolute;
+
+            right: 12px;
+            bottom: 12px;
+
+            width: 43px;
+            height: 43px;
+
+            border:
+                1px solid #7b2d63;
+
+            border-radius: 10px;
+
+            background: #211329;
+            color: #ff70b7;
+            cursor: pointer;
+        }
+
+        .voice-button:hover {
+            background: #3a1640;
+        }
+
+        .voice-button.recording {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff1744,
+                    #ff2d95
+                );
+
+            color: white;
+
+            box-shadow:
+                0 0 20px
+                rgba(255, 23, 68, 0.45);
+        }
+
+        .ask-button {
+            width: 100%;
+            max-width: none;
+        }
+
+        .result-box {
+            min-height: 145px;
+
+            margin-top: 18px;
+            padding: 20px;
+
+            border-radius: 14px;
+
+            background: #070b14;
+
+            border:
+                1px solid #151c2c;
+
+            color: #dfe3ef;
+
+            line-height: 1.7;
+            font-size: 12px;
+        }
+
+        .empty-result {
+            min-height: 105px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            color: #4d566c;
+            text-align: center;
+        }
+
+        .empty-result span {
+            color: #ff4ca3;
+            font-size: 25px;
+        }
+
+        .empty-result p {
+            margin-top: 5px;
+        }
+
+        .ai-answer {
+            margin-top: 12px;
+            color: #e4e7f0;
+            white-space: normal;
+        }
+
+        .result-box hr {
+            border: none;
+            border-top: 1px solid #22283a;
+            margin: 18px 0;
+        }
+
+        .result-box small {
+            color: #858ba0;
+        }
+
+        .confidence-box {
+            margin-top: 14px;
+
+            padding: 10px 12px;
+
+            border:
+                1px solid
+                rgba(255, 45, 149, 0.20);
+
+            border-radius: 8px;
+
+            background:
+                rgba(255, 45, 149, 0.06);
+
+            color: #70e7a0;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .confidence-medium {
+            color: #ffca70;
+        }
+
+        .confidence-low {
+            color: #ff6b7a;
+        }
+
+        .transparency-section {
+            margin-top: 5px;
+        }
+
+        .transparency-title {
+            color: #00c6ff;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .transparency-description {
+            margin-top: 6px;
+            color: #777e93;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .evidence-item {
+            margin-top: 12px;
+
+            border:
+                1px solid
+                rgba(0, 198, 255, 0.20);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255,255,255,0.02);
+
+            overflow: hidden;
+        }
+
+        .evidence-item summary {
+            padding: 12px;
+
+            cursor: pointer;
+
+            color: #ff4ca3;
+
+            font-weight: 700;
+            font-size: 12px;
+
+            list-style-position: inside;
+        }
+
+        .evidence-item summary:hover {
+            background:
+                rgba(255, 45, 149, 0.05);
+        }
+
+        .evidence-content {
+            padding: 0 12px 12px;
+
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .evidence-meta {
+            display: grid;
+            gap: 5px;
+            margin-top: 8px;
+            color: #9da3b7;
+        }
+
+        .evidence-meta b {
+            color: #dfe3ef;
+        }
+
+        .retrieved-information {
+            margin-top: 10px;
+
+            padding: 12px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(0,0,0,0.30);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.06);
+
+            color: #cfd4e3;
+
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .no-evidence {
+            margin-top: 12px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(255,193,7,0.08);
+
+            border:
+                1px solid
+                rgba(255,193,7,0.15);
+
+            color: #ffca70;
+        }
+
+        .tts-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .tts-controls button {
+            appearance: none;
+            border: none;
+            border-radius: 8px;
+
+            padding: 9px 15px;
+
+            color: white;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.25);
+        }
+
+        .tts-controls button:nth-child(1) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff2d95,
+                    #8b5cf6,
+                    #00c6ff
+                );
+        }
+
+        .tts-controls button:nth-child(2) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8a00,
+                    #ff2d55
+                );
+        }
+
+        .tts-controls button:nth-child(3) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #00c853,
+                    #00a8ff
+                );
+        }
+
+        .tts-controls button:nth-child(4) {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff1744,
+                    #d50000
+                );
+        }
+
+        .tts-controls button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 22px
+                rgba(255, 45, 149, 0.35);
+        }
+
+        .tts-controls button:active {
+            transform: scale(0.96);
+        }
+
+        .tts-voice-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tts-voice-area label {
+            color: #ff4ca3;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        #voiceSelect {
+            max-width: 280px;
+
+            padding: 6px 10px;
+
+            border-radius: 6px;
+
+            border:
+                1px solid #e32683;
+
+            background: #111827;
+            color: white;
+
+            font-size: 11px;
+            outline: none;
+        }
+
+        .pipeline-card {
+            margin-top: 22px;
+        }
+
+        .pipeline-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .pipeline-title h2 {
+            margin-top: 7px;
+        }
+
+        .pipeline-title p {
+            margin-top: 5px;
+            color: #777b91;
+            font-size: 12px;
+        }
+
+        .pipeline-live {
+            color: #4de88d;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 35px;
+
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .pipeline-node {
+            min-width: 145px;
+
+            padding: 18px 12px;
+
+            border:
+                1px solid #202a3f;
+
+            border-radius: 14px;
+
+            text-align: center;
+
+            background: #0a0f1c;
+        }
+
+        .pipeline-node.active {
+            border-color: #e62a8c;
+
+            box-shadow:
+                0 0 25px
+                rgba(230, 42, 140, 0.12);
+        }
+
+        .node-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: auto auto 10px;
+
+            border-radius: 9px;
+
+            background: #24162d;
+            color: #ff65b0;
+
+            font-weight: 800;
+        }
+
+        .pipeline-node strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .pipeline-node small {
+            display: block;
+            margin-top: 5px;
+            color: #666d81;
+            font-size: 9px;
+        }
+
+        .pipeline-line {
+            width: 35px;
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #e82c91,
+                    #7436a6
+                );
+        }
+
+
+        /* =========================================================
+           M4.1 QUERY ANALYTICS
+           ========================================================= */
+
+        .analytics-card {
+            margin-top: 22px;
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .analytics-header h2 {
+            margin-top: 7px;
+        }
+
+        .analytics-header p {
+            margin-top: 5px;
+            color: #777b91;
+            font-size: 12px;
+        }
+
+        .analytics-refresh {
+            border: 1px solid #7e2d64;
+            border-radius: 8px;
+            padding: 9px 14px;
+            background: #1b1222;
+            color: #ff70b7;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .analytics-refresh:hover {
+            background: #301735;
+            border-color: #ff2d95;
+            color: white;
+        }
+
+        .analytics-status {
+            margin-top: 15px;
+            color: #777e93;
+            font-size: 10px;
+        }
+
+        .analytics-stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .analytics-stat {
+            padding: 18px;
+            border: 1px solid #20283a;
+            border-radius: 13px;
+            background: #0a0f1c;
+        }
+
+        .analytics-stat-label {
+            color: #73798c;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .analytics-stat-value {
+            margin-top: 8px;
+            color: #f3f4f8;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .analytics-stat:nth-child(1)
+        .analytics-stat-value {
+            color: #ff4ca3;
+        }
+
+        .analytics-stat:nth-child(2)
+        .analytics-stat-value {
+            color: #70e7a0;
+        }
+
+        .analytics-stat:nth-child(3)
+        .analytics-stat-value {
+            color: #ff6b7a;
+        }
+
+        .analytics-stat:nth-child(4)
+        .analytics-stat-value {
+            color: #ffca70;
+        }
+
+        .analytics-stat:nth-child(5)
+        .analytics-stat-value {
+            color: #00c6ff;
+        }
+
+        .analytics-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+        }
+
+        .analytics-filter-label {
+            color: #777e93;
+            font-size: 10px;
+            margin-right: 5px;
+        }
+
+        .analytics-filter {
+            border: 1px solid #292f43;
+            border-radius: 7px;
+            padding: 8px 12px;
+            background: #0b101c;
+            color: #9da3b7;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .analytics-filter:hover {
+            border-color: #ff2d95;
+            color: white;
+        }
+
+        .analytics-filter.active {
+            border-color: #e32683;
+            background: #29152d;
+            color: #ff70b7;
+        }
+
+        .analytics-table-wrap {
+            margin-top: 18px;
+            overflow-x: auto;
+            border: 1px solid #1d2334;
+            border-radius: 12px;
+        }
+
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        .analytics-table th {
+            padding: 12px 10px;
+            background: #0b101c;
+            color: #777e93;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-align: left;
+            border-bottom: 1px solid #20283a;
+        }
+
+        .analytics-table td {
+            padding: 12px 10px;
+            color: #cfd4e3;
+            font-size: 10px;
+            line-height: 1.5;
+            border-bottom: 1px solid #171d2b;
+            vertical-align: top;
+        }
+
+        .analytics-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .analytics-table tr:hover td {
+            background: rgba(255, 45, 149, 0.035);
+        }
+
+        .analytics-query {
+            max-width: 280px;
+            color: #f0f2f7;
+            word-break: break-word;
+        }
+
+        .analytics-type {
+            color: #c3c8d8;
+        }
+
+        .analytics-confidence {
+            font-weight: 700;
+        }
+
+        .analytics-answered {
+            color: #70e7a0;
+            font-weight: 700;
+        }
+
+        .analytics-unanswered {
+            color: #ff6b7a;
+            font-weight: 700;
+        }
+
+        .analytics-gap {
+            display: inline-block;
+            padding: 4px 7px;
+            border-radius: 5px;
+            background: rgba(255, 107, 122, 0.10);
+            border: 1px solid rgba(255, 107, 122, 0.18);
+            color: #ff6b7a;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .analytics-no-gap {
+            color: #70e7a0;
+            font-size: 9px;
+        }
+
+        .knowledge-gap-section {
+            margin-top: 25px;
+        }
+
+        .knowledge-gap-title {
+            color: #ffca70;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .knowledge-gap-description {
+            margin-top: 5px;
+            color: #777e93;
+            font-size: 10px;
+        }
+
+        .knowledge-gap-list {
+            display: grid;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .knowledge-gap-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 13px;
+            border: 1px solid rgba(255, 193, 7, 0.15);
+            border-radius: 8px;
+            background: rgba(255, 193, 7, 0.045);
+        }
+
+        .knowledge-gap-query {
+            color: #dfe3ef;
+            font-size: 10px;
+            word-break: break-word;
+        }
+
+        .knowledge-gap-type {
+            color: #ffca70;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        .analytics-empty {
+            padding: 25px;
+            text-align: center;
+            color: #555d72;
+            font-size: 10px;
+        }
+
+
+        .agents-section {
+            margin-top: 45px;
+        }
+
+        .section-heading span {
+            color: #ff3d9d;
+            font-size: 10px;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .section-heading h2 {
+            margin-top: 7px;
+            font-size: 28px;
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .agent-card {
+            padding: 22px;
+
+            border:
+                1px solid #1d2334;
+
+            border-radius: 14px;
+
+            background: #0d111e;
+
+            transition: 0.25s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-4px);
+            border-color: #7e2d64;
+        }
+
+        .agent-icon {
+            color: #ff4ca3;
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .agent-card h3 {
+            margin-top: 14px;
+            font-size: 15px;
+        }
+
+        .agent-card p {
+            margin-top: 8px;
+            color: #777e93;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+
+            margin-top: 45px;
+            padding-top: 20px;
+
+            border-top:
+                1px solid #1a2030;
+
+            color: #5f667a;
+            font-size: 10px;
+        }
+
+        footer strong {
+            color: #ff4ca3;
+        }
+
+        @media (max-width: 1100px) {
+
+            .analytics-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .agent-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-symbol {
+                display: none;
+            }
+
+            .analytics-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .app {
+                width: 94%;
+            }
+
+            .hero {
+                padding: 35px 20px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                justify-content: flex-start;
+            }
+
+            footer {
+                flex-direction: column;
+            }
+
+            .tts-controls button {
+                flex: 1;
+            }
+
+            .analytics-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-header {
+                flex-direction: column;
+            }
+
+            .analytics-refresh {
+                width: 100%;
+            }
+
+        }
+
+
+        /* =========================================================
+           M4.1 ANALYTICS INSIGHTS UI - FIXED
+           ========================================================= */
+
+        .analytics-insights {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 20px !important;
+            margin-top: 25px !important;
+        }
+
+        .analytics-insight-card {
+            position: relative !important;
+            width: 100% !important;
+            min-height: 220px !important;
+            padding: 24px !important;
+            box-sizing: border-box !important;
+            border-radius: 16px !important;
+            background: linear-gradient(145deg, rgba(18,23,42,.98), rgba(7,10,22,.98)) !important;
+            border: 1px solid rgba(255,45,149,.22) !important;
+            box-shadow: 0 12px 35px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.025) !important;
+            overflow: hidden !important;
+            transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease !important;
+        }
+
+        .analytics-insight-card::before {
+            content: "" !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 3px !important;
+            background: linear-gradient(90deg,#ff2d95,#8b5cf6,#00c6ff) !important;
+        }
+
+        .analytics-insight-card::after {
+            content: "" !important;
+            position: absolute !important;
+            width: 150px !important;
+            height: 150px !important;
+            top: -80px !important;
+            right: -80px !important;
+            border-radius: 50% !important;
+            background: radial-gradient(circle,rgba(255,45,149,.12),transparent 70%) !important;
+            pointer-events: none !important;
+        }
+
+        .analytics-insight-card:hover {
+            transform: translateY(-4px) !important;
+            border-color: rgba(255,45,149,.5) !important;
+            box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 30px rgba(255,45,149,.08) !important;
+        }
+
+        .insight-title-row {
+            position: relative !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: flex-start !important;
+            gap: 15px !important;
+            z-index: 2 !important;
+        }
+
+        .insight-label {
+            display: block !important;
+            margin-bottom: 6px !important;
+            color: #ff4ca3 !important;
+            font-size: 9px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+        }
+
+        .analytics-insight-card h3 {
+            margin: 0 !important;
+            color: #fff !important;
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            letter-spacing: .8px !important;
+            line-height: 1.35 !important;
+        }
+
+        .analytics-insight-card p {
+            margin: 7px 0 18px !important;
+            color: #78839d !important;
+            font-size: 10px !important;
+            line-height: 1.5 !important;
+        }
+
+        .insight-symbol {
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 10px !important;
+            color: #fff !important;
+            font-size: 17px !important;
+            background: linear-gradient(135deg,rgba(255,45,149,.18),rgba(139,92,246,.16),rgba(0,198,255,.12)) !important;
+            border: 1px solid rgba(255,45,149,.22) !important;
+        }
+
+        .analytics-list {
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 9px !important;
+            width: 100% !important;
+            z-index: 2 !important;
+        }
+
+        .analytics-list-item {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 12px !important;
+            min-height: 42px !important;
+            padding: 10px 13px !important;
+            box-sizing: border-box !important;
+            border-radius: 9px !important;
+            background: rgba(255,255,255,.035) !important;
+            border: 1px solid rgba(255,255,255,.07) !important;
+            transition: .2s ease !important;
+        }
+
+        .analytics-list-item:hover {
+            background: rgba(255,45,149,.07) !important;
+            border-color: rgba(255,45,149,.25) !important;
+            transform: translateX(3px) !important;
+        }
+
+        .analytics-list-item span {
+            color: #dce2f2 !important;
+            font-size: 11px !important;
+        }
+
+        .analytics-list-item strong {
+            min-width: 28px !important;
+            padding: 5px 9px !important;
+            border-radius: 6px !important;
+            color: #fff !important;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+            text-align: center !important;
+            background: linear-gradient(135deg,#ff2d95,#8b5cf6) !important;
+        }
+
+        .analytics-metrics,
+        .analytics-metric-grid {
+            position: relative !important;
+            display: grid !important;
+            grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+            gap: 10px !important;
+            width: 100% !important;
+            z-index: 2 !important;
+        }
+
+        .analytics-metric {
+            min-height: 78px !important;
+            padding: 13px !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            border-radius: 10px !important;
+            background: linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)) !important;
+            border: 1px solid rgba(255,255,255,.07) !important;
+            transition: .2s ease !important;
+        }
+
+        .analytics-metric:hover {
+            background: linear-gradient(145deg,rgba(255,45,149,.08),rgba(139,92,246,.05)) !important;
+            border-color: rgba(255,45,149,.25) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .analytics-metric-label,
+        .analytics-metric span {
+            margin-bottom: 8px !important;
+            color: #78839d !important;
+            font-size: 8px !important;
+            font-weight: 800 !important;
+            letter-spacing: .9px !important;
+            text-transform: uppercase !important;
+        }
+
+        .analytics-metric-value,
+        .analytics-metric strong {
+            color: #fff !important;
+            font-size: 21px !important;
+            font-weight: 800 !important;
+            line-height: 1.1 !important;
+        }
+
+        .analytics-daily-item {
+            padding: 12px !important;
+            border-radius: 10px !important;
+            background: rgba(255,255,255,.035) !important;
+            border: 1px solid rgba(255,255,255,.07) !important;
+        }
+
+        .analytics-daily-date {
+            margin-bottom: 8px !important;
+            color: #ff4ca3 !important;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+        }
+
+        .analytics-daily-stats {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 7px !important;
+        }
+
+        .analytics-daily-stats span {
+            padding: 5px 8px !important;
+            border-radius: 5px !important;
+            background: rgba(255,255,255,.045) !important;
+            color: #8b96ad !important;
+            font-size: 9px !important;
+        }
+
+        .analytics-daily-stats strong {
+            color: #fff !important;
+        }
+
+        .analytics-empty {
+            width: 100% !important;
+            padding: 15px !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+            color: #68738e !important;
+            font-size: 10px !important;
+            background: rgba(255,255,255,.018) !important;
+            border: 1px dashed rgba(255,255,255,.10) !important;
+            border-radius: 9px !important;
+        }
+
+        @media (max-width: 850px) {
+            .analytics-insights {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .analytics-metrics,
+            .analytics-metric-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="background-glow glow-one"></div>
+<div class="background-glow glow-two"></div>
+
+<div class="app">
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                NK
+            </div>
+
+            <div>
+
+                <h2>
+                    NEURAL CORE
+                </h2>
+
+                <span>
+                    Knowledge Intelligence Engine
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            AI ENGINE ACTIVE
+
+        </div>
+
+    </nav>
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="japanese-label">
+                INTELLIGENT KNOWLEDGE ENGINE
+            </div>
+
+            <h1>
+                Search.
+                Understand.
+                <br>
+
+                <span>
+                    Generate.
+                </span>
+            </h1>
+
+            <p>
+                A Multi-Agent Retrieval-Augmented Intelligence Platform
+            </p>
+
+            <div class="hero-tags">
+
+                <span>RAG ENGINE</span>
+                <span>MULTI-AGENT</span>
+                <span>VECTOR AI</span>
+                <span>LLAMA 3.2</span>
+
+            </div>
+
+        </div>
+
+        <div class="hero-symbol">
+
+            <div class="circle">
+                AI
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="main-grid">
+
+        <section class="card upload-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="card-number">
+                        MODULE 01
+                    </span>
+
+                    <h2>
+                        Knowledge Ingestion
+                    </h2>
+
+                    <p>
+                        Build your private AI knowledge base
+                    </p>
+
+                </div>
+
+                <div class="card-icon">
+                    ◈
+                </div>
+
+            </div>
+
+            <div class="upload-area">
+
+                <div class="upload-symbol">
+                    +
+                </div>
+
+                <h3>
+                    Add Knowledge Source
+                </h3>
+
+                <p>
+                    PDF · DOCX · TXT · CSV
+                </p>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".pdf,.docx,.txt,.csv"
+                >
+
+                <label
+                    for="fileInput"
+                    class="file-button"
+                >
+                    SELECT DOCUMENT
+                </label>
+
+                <button
+                    id="uploadButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    BUILD KNOWLEDGE INDEX →
+                </button>
+
+                <div
+                    id="uploadStatus"
+                    class="status-message"
+                ></div>
+
+            </div>
+
+        </section>
+
+        <section class="card query-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="card-number">
+                        MODULE 02
+                    </span>
+
+                    <h2>
+                        Neural Query
+                    </h2>
+
+                    <p>
+                        Ask questions from your knowledge base
+                    </p>
+
+                </div>
+
+                <div class="card-icon">
+                    ◉
+                </div>
+
+            </div>
+
+            <div class="query-box">
+
+                <label>
+                    QUERY INTERFACE
+                </label>
+
+                <div class="voice-query-box">
+
+                    <textarea
+                        id="queryInput"
+                        placeholder="Type your question or use the microphone..."
+                    ></textarea>
+
+                    <button
+                        type="button"
+                        id="voiceButton"
+                        class="voice-button"
+                        title="Speak your question"
+                    >
+                        🎙
+                    </button>
+
+                </div>
+
+                <button
+                    id="askButton"
+                    class="primary-button ask-button"
+                    type="button"
+                >
+                    RUN AI QUERY →
+                </button>
+
+            </div>
+
+            <div
+                id="result"
+                class="result-box"
+            >
+
+                <div class="empty-result">
+
+                    <span>
+                        ✦
+                    </span>
+
+                    <p>
+                        AI response will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div
+                id="ttsControls"
+                class="tts-controls"
+            >
+
+                <button
+                    type="button"
+                    id="startSpeechButton"
+                >
+                    🔊 Start
+                </button>
+
+                <button
+                    type="button"
+                    id="pauseSpeechButton"
+                >
+                    ⏸ Pause
+                </button>
+
+                <button
+                    type="button"
+                    id="resumeSpeechButton"
+                >
+                    ▶ Resume
+                </button>
+
+                <button
+                    type="button"
+                    id="stopSpeechButton"
+                >
+                    ⏹ Stop
+                </button>
+
+            </div>
+
+            <div
+                id="ttsVoiceArea"
+                class="tts-voice-area"
+            >
+
+                <label for="voiceSelect">
+                    Voice:
+                </label>
+
+                <select
+                    id="voiceSelect"
+                ></select>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <section class="card pipeline-card">
+
+        <div class="pipeline-title">
+
+            <div>
+
+                <span class="card-number">
+                    MODULE 03
+                </span>
+
+                <h2>
+                    Intelligence Pipeline
+                </h2>
+
+                <p>
+                    Multi-agent query resolution flow
+                </p>
+
+            </div>
+
+            <span class="pipeline-live">
+                ● LIVE
+            </span>
+
+        </div>
+
+        <div class="pipeline">
+
+            <div class="pipeline-node active">
+
+                <div class="node-icon">
+                    Q
+                </div>
+
+                <strong>
+                    Query
+                </strong>
+
+                <small>
+                    User Input
+                </small>
+
+            </div>
+
+            <div class="pipeline-line"></div>
+
+            <div class="pipeline-node">
+
+                <div class="node-icon">
+                    U
+                </div>
+
+                <strong>
+                    Understanding
+                </strong>
+
+                <small>
+                    Intent Agent
+                </small>
+
+            </div>
+
+            <div class="pipeline-line"></div>
+
+            <div class="pipeline-node">
+
+                <div class="node-icon">
+                    R
+                </div>
+
+                <strong>
+                    Retrieval
+                </strong>
+
+                <small>
+                    Vector Search
+                </small>
+
+            </div>
+
+            <div class="pipeline-line"></div>
+
+            <div class="pipeline-node">
+
+                <div class="node-icon">
+                    G
+                </div>
+
+                <strong>
+                    Generation
+                </strong>
+
+                <small>
+                    Llama 3.2
+                </small>
+
+            </div>
+
+            <div class="pipeline-line"></div>
+
+            <div class="pipeline-node">
+
+                <div class="node-icon">
+                    ✓
+                </div>
+
+                <strong>
+                    Response
+                </strong>
+
+                <small>
+                    AI Output
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         M4.1 QUERY ANALYTICS
+         ========================================================= -->
+
+    <section class="card analytics-card">
+
+        <div class="analytics-header">
+
+            <div>
+
+                <span class="card-number">
+                    MODULE 04 / M4.1
+                </span>
+
+                <h2>
+                    Query Analytics
+                </h2>
+
+                <p>
+                    Monitor query patterns, response quality and knowledge gaps
+                </p>
+
+            </div>
+
+            <button
+                id="refreshAnalyticsButton"
+                class="analytics-refresh"
+                type="button"
+            >
+                ↻ REFRESH ANALYTICS
+            </button>
+
+        </div>
+
+        <div
+            id="analyticsStatus"
+            class="analytics-status"
+        >
+            Loading analytics...
+        </div>
+
+
+        <div class="analytics-stats">
+
+            <div class="analytics-stat">
+
+                <div class="analytics-stat-label">
+                    Total Queries
+                </div>
+
+                <div
+                    id="totalQueries"
+                    class="analytics-stat-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stat">
+
+                <div class="analytics-stat-label">
+                    Answered
+                </div>
+
+                <div
+                    id="answeredQueries"
+                    class="analytics-stat-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stat">
+
+                <div class="analytics-stat-label">
+                    Unanswered
+                </div>
+
+                <div
+                    id="unansweredQueries"
+                    class="analytics-stat-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stat">
+
+                <div class="analytics-stat-label">
+                    Clarifications
+                </div>
+
+                <div
+                    id="clarificationQueries"
+                    class="analytics-stat-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="analytics-stat">
+
+                <div class="analytics-stat-label">
+                    Knowledge Gaps
+                </div>
+
+                <div
+                    id="knowledgeGapCount"
+                    class="analytics-stat-value"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="analytics-controls">
+
+            <span class="analytics-filter-label">
+                FILTER:
+            </span>
+
+            <button
+                type="button"
+                class="analytics-filter active"
+                data-filter="all"
+            >
+                ALL
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="answered"
+            >
+                ANSWERED
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="unanswered"
+            >
+                UNANSWERED
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="gap"
+            >
+                KNOWLEDGE GAPS
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="factual"
+            >
+                FACTUAL
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="procedural"
+            >
+                PROCEDURAL
+            </button>
+
+            <button
+                type="button"
+                class="analytics-filter"
+                data-filter="ambiguous"
+            >
+                AMBIGUOUS
+            </button>
+
+        </div>
+
+
+        <div class="analytics-table-wrap">
+
+            <table class="analytics-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            TIME
+                        </th>
+
+                        <th>
+                            QUERY
+                        </th>
+
+                        <th>
+                            TYPE
+                        </th>
+
+                        <th>
+                            CONFIDENCE
+                        </th>
+
+                        <th>
+                            STATUS
+                        </th>
+
+                        <th>
+                            KNOWLEDGE GAP
+                        </th>
+
+                        <th>
+                            DOCUMENTS
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                    id="analyticsTableBody"
+                >
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="analytics-empty">
+                                Loading query history...
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <!-- =========================================================
+     M4.1 ANALYTICS INSIGHTS
+     ========================================================= -->
+<div class="analytics-insights">
+
+    <!-- QUERY TYPE DISTRIBUTION -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 01</span>
+                <h3>QUERY TYPE DISTRIBUTION</h3>
+                <p>Classification of user queries</p>
+            </div>
+            <div class="insight-symbol">◈</div>
+        </div>
+
+        <div id="queryTypeAnalytics" class="analytics-list"></div>
+    </div>
+
+
+    <!-- KNOWLEDGE DOMAIN DISTRIBUTION -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 02</span>
+                <h3>KNOWLEDGE DOMAIN DISTRIBUTION</h3>
+                <p>Domains represented in user queries</p>
+            </div>
+            <div class="insight-symbol">◎</div>
+        </div>
+
+        <div id="domainAnalytics" class="analytics-list"></div>
+    </div>
+
+
+    <!-- RETRIEVAL PERFORMANCE -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 03</span>
+                <h3>RETRIEVAL PERFORMANCE</h3>
+                <p>Vector retrieval statistics</p>
+            </div>
+            <div class="insight-symbol">⌁</div>
+        </div>
+
+        <div class="analytics-metrics">
+
+            <div class="analytics-metric">
+                <span>RETRIEVED DOCUMENTS</span>
+                <strong id="retrievedDocumentsMetric">0</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>AVERAGE DISTANCE</span>
+                <strong id="averageDistanceMetric">0</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>BEST DISTANCE</span>
+                <strong id="bestDistanceMetric">N/A</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>WORST DISTANCE</span>
+                <strong id="worstDistanceMetric">N/A</strong>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- SYSTEM PERFORMANCE -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 04</span>
+                <h3>SYSTEM PERFORMANCE</h3>
+                <p>Overall response analytics</p>
+            </div>
+            <div class="insight-symbol">⚡</div>
+        </div>
+
+        <div class="analytics-metrics">
+
+            <div class="analytics-metric">
+                <span>ANSWER RATE</span>
+                <strong id="answerRateMetric">0%</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>AVG CONFIDENCE</span>
+                <strong id="averageConfidenceMetric">0</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>AVG RESPONSE TIME</span>
+                <strong id="averageResponseTimeMetric">0 s</strong>
+            </div>
+
+            <div class="analytics-metric">
+                <span>LOW CONFIDENCE</span>
+                <strong id="lowConfidenceMetric">0</strong>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- DAILY QUERY ACTIVITY -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 05</span>
+                <h3>DAILY QUERY ACTIVITY</h3>
+                <p>Query activity grouped by date</p>
+            </div>
+            <div class="insight-symbol">▤</div>
+        </div>
+
+        <div id="dailyAnalytics" class="analytics-list"></div>
+    </div>
+
+
+    <!-- COMMON USER QUERIES -->
+    <div class="analytics-insight-card">
+        <div class="insight-title-row">
+            <div>
+                <span class="insight-label">ANALYTICS 06</span>
+                <h3>COMMON USER QUERIES</h3>
+                <p>Frequently repeated questions</p>
+            </div>
+            <div class="insight-symbol">⌕</div>
+        </div>
+
+        <div id="commonQueriesAnalytics" class="analytics-list"></div>
+    </div>
+
+</div>
+
+
+        <div class="knowledge-gap-section">
+
+            <div class="knowledge-gap-title">
+                ⚠ KNOWLEDGE GAP DETECTION
+            </div>
+
+            <p class="knowledge-gap-description">
+                Repeated unanswered queries indicate information that may be missing from the knowledge base.
+            </p>
+
+            <div
+                id="knowledgeGapList"
+                class="knowledge-gap-list"
+            >
+
+                <div class="analytics-empty">
+                    Loading knowledge gaps...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="agents-section">
+
+        <div class="section-heading">
+
+            <span>
+                SYSTEM ARCHITECTURE
+            </span>
+
+            <h2>
+                Intelligence Modules
+            </h2>
+
+        </div>
+
+        <div class="agent-grid">
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+                    01 / INTENT
+                </div>
+
+                <h3>
+                    Query Understanding
+                </h3>
+
+                <p>
+                    Identifies the user's intent and determines the query type.
+                </p>
+
+            </div>
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+                    02 / SEARCH
+                </div>
+
+                <h3>
+                    Retrieval Agent
+                </h3>
+
+                <p>
+                    Searches the vector database for semantically relevant knowledge.
+                </p>
+
+            </div>
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+                    03 / GENERATE
+                </div>
+
+                <h3>
+                    Response Generation
+                </h3>
+
+                <p>
+                    Creates grounded responses using retrieved document context.
+                </p>
+
+            </div>
+
+            <div class="agent-card">
+
+                <div class="agent-icon">
+                    04 / CONTROL
+                </div>
+
+                <h3>
+                    AI Orchestrator
+                </h3>
+
+                <p>
+                    Coordinates the complete query processing workflow.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        <div>
+
+            <strong>
+                NEURAL CORE
+            </strong>
+
+            <span>
+                | AI Knowledge Retrieval Platform
+            </span>
+
+        </div>
+
+        <div>
+            Python · FastAPI · ChromaDB · Sentence Transformers · Ollama
+        </div>
+
+    </footer>
+
+</div>
+
+<script>
+
+const API_URL =
+    window.API_URL ||
+    localStorage.getItem("API_URL") ||
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+        ? "http://127.0.0.1:8000"
+        : window.location.origin);
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const uploadButton =
+    document.getElementById("uploadButton");
+
+const uploadStatus =
+    document.getElementById("uploadStatus");
+
+const queryInput =
+    document.getElementById("queryInput");
+
+const askButton =
+    document.getElementById("askButton");
+
+const result =
+    document.getElementById("result");
+
+const voiceButton =
+    document.getElementById("voiceButton");
+
+const voiceSelect =
+    document.getElementById("voiceSelect");
+
+
+/* =========================================================
+   M4.1 ANALYTICS ELEMENTS
+   ========================================================= */
+
+const refreshAnalyticsButton =
+    document.getElementById(
+        "refreshAnalyticsButton"
+    );
+
+const analyticsStatus =
+    document.getElementById(
+        "analyticsStatus"
+    );
+
+const totalQueries =
+    document.getElementById(
+        "totalQueries"
+    );
+
+const answeredQueries =
+    document.getElementById(
+        "answeredQueries"
+    );
+
+const unansweredQueries =
+    document.getElementById(
+        "unansweredQueries"
+    );
+
+const clarificationQueries =
+    document.getElementById(
+        "clarificationQueries"
+    );
+
+const knowledgeGapCount =
+    document.getElementById(
+        "knowledgeGapCount"
+    );
+
+const analyticsTableBody =
+    document.getElementById(
+        "analyticsTableBody"
+    );
+
+const knowledgeGapList =
+    document.getElementById(
+        "knowledgeGapList"
+    );
+
+
+let analyticsRecords = [];
+
+let currentAnalyticsFilter =
+    "all";
+
+
+/* =========================================================
+   TTS VARIABLES
+   ========================================================= */
+
+let currentAnswerText = "";
+
+let speechQueue = [];
+
+let speechIndex = 0;
+
+let isSpeechPaused = false;
+
+let currentSpeech = null;
+
+
+/* =========================================================
+   FILE UPLOAD
+   ========================================================= */
+
+uploadButton.addEventListener(
+    "click",
+    uploadFile
+);
+
+
+async function uploadFile() {
+
+    if (
+        !fileInput.files ||
+        !fileInput.files.length
+    ) {
+
+        uploadStatus.innerText =
+            "Please select a document first.";
+
+        uploadStatus.style.color =
+            "#ff6b9d";
+
+        return;
+    }
+
+    const file =
+        fileInput.files[0];
+
+    uploadStatus.innerText =
+        "Uploading and indexing...";
+
+    uploadStatus.style.color =
+        "#ffca70";
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "file",
+        file
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/upload`,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Upload failed"
+            );
+        }
+
+        uploadStatus.innerText =
+            `✓ ${data.filename} indexed successfully — ${data.chunks} chunks created.`;
+
+        uploadStatus.style.color =
+            "#70e7a0";
+
+
+        /* M4.1:
+           Refresh analytics after new activity. */
+
+        loadAnalytics();
+
+    } catch (error) {
+
+        console.error(error);
+
+        uploadStatus.innerText =
+            "❌ Upload failed. Check whether FastAPI is running.";
+
+        uploadStatus.style.color =
+            "#ff557f";
+    }
+}
+
+
+/* =========================================================
+   ASK QUESTION
+   ========================================================= */
+
+askButton.addEventListener(
+    "click",
+    askQuestion
+);
+
+
+queryInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            askQuestion();
+        }
+    }
+);
+
+
+async function askQuestion() {
+
+    const query =
+        queryInput.value.trim();
+
+    if (!query) {
+
+        result.innerHTML = `
+
+            <div class="empty-result">
+
+                <span>⚠</span>
+
+                <p>
+                    Please enter a question.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    stopSpeech();
+
+    result.innerHTML = `
+
+        <div class="empty-result">
+
+            <span>✦</span>
+
+            <p>
+                Processing your question...
+            </p>
+
+        </div>
+
+    `;
+
+    askButton.disabled = true;
+
+    askButton.innerText =
+        "PROCESSING...";
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/query`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        query: query
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Query failed"
+            );
+        }
+
+
+        /* =================================================
+           CLARIFICATION
+           ================================================= */
+
+        if (
+            data.needs_clarification
+        ) {
+
+            currentAnswerText =
+                data.clarification_question ||
+                "";
+
+            result.innerHTML = `
+
+                <strong>
+                    Clarification Needed
+                </strong>
+
+                <p class="ai-answer">
+
+                    ${escapeHTML(
+                        currentAnswerText
+                    )}
+
+                </p>
+
+            `;
+
+            speakText(
+                currentAnswerText
+            );
+
+            return;
+        }
+
+
+        /* =================================================
+           STORE ANSWER
+           ================================================= */
+
+        currentAnswerText =
+            data.answer || "";
+
+
+        /* =================================================
+           FORMAT ANSWER
+           ================================================= */
+
+        const formattedAnswer =
+            escapeHTML(
+                data.answer || ""
+            ).replace(
+                /\n/g,
+                "<br>"
+            );
+
+
+        /* =================================================
+           INTENT CONFIDENCE
+           ================================================= */
+
+        const intentConfidence =
+            Number(
+                data.confidence
+            );
+
+        let confidenceClass =
+            "confidence-box";
+
+        let confidenceText =
+            "High confidence";
+
+        if (
+            intentConfidence < 0.5
+        ) {
+
+            confidenceClass +=
+                " confidence-low";
+
+            confidenceText =
+                "Low confidence";
+
+        } else if (
+            intentConfidence < 0.75
+        ) {
+
+            confidenceClass +=
+                " confidence-medium";
+
+            confidenceText =
+                "Medium confidence";
+        }
+
+
+       
+        /* =================================================
+   EVIDENCE CONFIDENCE
+   ================================================= */
+
+const retrievalConfidence =
+    Number(
+        data.retrieval_confidence
+    );
+
+let evidenceConfidence =
+    "No evidence";
+
+let evidenceConfidenceClass =
+    "confidence-box confidence-low";
+
+if (
+    !isNaN(retrievalConfidence)
+) {
+
+    if (
+        retrievalConfidence >= 0.80
+    ) {
+
+        evidenceConfidence =
+            "High confidence";
+
+        evidenceConfidenceClass =
+            "confidence-box";
+
+    } else if (
+        retrievalConfidence >= 0.50
+    ) {
+
+        evidenceConfidence =
+            "Medium confidence";
+
+        evidenceConfidenceClass =
+            "confidence-box confidence-medium";
+
+    } else {
+
+        evidenceConfidence =
+            "Low confidence";
+
+        evidenceConfidenceClass =
+            "confidence-box confidence-low";
+    }
+}
+
+        /* =================================================
+           BUILD SOURCE EVIDENCE
+           ================================================= */
+
+        let evidenceHTML =
+            "";
+
+        if (
+            data.evidence &&
+            data.evidence.length > 0
+        ) {
+
+            evidenceHTML = `
+
+                <hr>
+
+                <div
+                    class="transparency-section"
+                >
+
+                    <div
+                        class="transparency-title"
+                    >
+                        🔎 SOURCE EVIDENCE
+                    </div>
+
+                    <p
+                        class="transparency-description"
+                    >
+                        The information below was retrieved
+                        from the knowledge base and used as
+                        supporting context for the generated answer.
+                    </p>
+
+                    ${data.evidence.map(
+                        function(item, index) {
+
+                            const distance =
+                                item.distance !== null &&
+                                item.distance !== undefined
+
+                                    ? Number(
+                                        item.distance
+                                    ).toFixed(4)
+
+                                    : "N/A";
+
+
+                            const citationId =
+                                item.citation_id &&
+                                item.citation_id !==
+                                    "Not available"
+
+                                    ? item.citation_id
+
+                                    : `${item.document || "Unknown document"}#chunk-${item.chunk_id ?? index}`;
+
+
+                            return `
+
+                                <details
+                                    class="evidence-item"
+                                >
+
+                                    <summary>
+
+                                        📄
+                                        ${escapeHTML(
+                                            item.document ||
+                                            "Unknown document"
+                                        )}
+
+                                    </summary>
+
+
+                                    <div
+                                        class="evidence-content"
+                                    >
+
+                                        <div
+                                            class="evidence-meta"
+                                        >
+
+                                            <div>
+
+                                                <b>
+                                                    Document:
+                                                </b>
+
+                                                ${escapeHTML(
+                                                    item.document ||
+                                                    "Unknown"
+                                                )}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <b>
+                                                    File Type:
+                                                </b>
+
+                                                ${escapeHTML(
+                                                    item.file_type ||
+                                                    "Unknown"
+                                                )}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <b>
+                                                    Chunk ID:
+                                                </b>
+
+                                                ${escapeHTML(
+                                                    String(
+                                                        item.chunk_id ??
+                                                        `chunk_${index}`
+                                                    )
+                                                )}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <b>
+                                                    Citation ID:
+                                                </b>
+
+                                                ${escapeHTML(
+                                                    citationId
+                                                )}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <b>
+                                                    Relevance Distance:
+                                                </b>
+
+                                                ${distance}
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div
+                                            class="retrieved-information"
+                                        >
+
+                                            <b>
+                                                Retrieved Information:
+                                            </b>
+
+                                            <br><br>
+
+                                            ${escapeHTML(
+                                                item.content ||
+                                                ""
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                </details>
+
+                            `;
+
+                        }
+
+                    ).join("")}
+
+                </div>
+
+            `;
+
+        } else {
+
+            evidenceHTML = `
+
+                <hr>
+
+                <div
+                    class="no-evidence"
+                >
+
+                    ⚠ No supporting evidence was retrieved
+                    from the knowledge base.
+
+                </div>
+
+            `;
+        }
+
+
+        /* =================================================
+           DISPLAY FINAL ANSWER
+           ================================================= */
+
+        result.innerHTML = `
+
+            <div>
+
+                <strong>
+                    AI Answer
+                </strong>
+
+
+                <p
+                    class="ai-answer"
+                >
+
+                    ${formattedAnswer}
+
+                </p>
+
+
+                <hr>
+
+
+                <small>
+
+    Query Type:
+    ${escapeHTML(
+        data.query_type ||
+        "N/A"
+    )}
+
+    <br>
+
+    Intent Confidence:
+    ${
+        isNaN(
+            intentConfidence
+        )
+        ? "N/A"
+        : intentConfidence.toFixed(2)
+    }
+
+    <br>
+
+    Retrieval Confidence:
+    ${
+        isNaN(
+            retrievalConfidence
+        )
+        ? "N/A"
+        : retrievalConfidence.toFixed(2)
+    }
+
+</small>
+
+<div
+    class="${evidenceConfidenceClass}"
+>
+
+    ● ${evidenceConfidence}
+
+</div>
+
+
+                <div
+                    class="${evidenceConfidenceClass}"
+                >
+
+                    🔎 ${evidenceConfidence}
+
+                </div>
+
+
+                ${evidenceHTML}
+
+            </div>
+
+        `;
+
+
+        speakText(
+            data.answer || ""
+        );
+
+
+        /* =================================================
+           M4.1:
+           Refresh analytics after a query.
+           ================================================= */
+
+        setTimeout(
+            loadAnalytics,
+            500
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Query error:",
+            error
+        );
+
+        result.innerHTML = `
+
+            <div
+                class="empty-result"
+            >
+
+                <span>
+                    ⚠
+                </span>
+
+                <p>
+                    Unable to get an answer.
+                    Check that FastAPI and Ollama are running.
+                </p>
+
+            </div>
+
+        `;
+
+    } finally {
+
+        askButton.disabled =
+            false;
+
+        askButton.innerText =
+            "RUN AI QUERY →";
+    }
+}
+
+
+
+/* =========================================================
+   M4.1 ANALYTICS INSIGHT CARDS
+   ========================================================= */
+
+function renderInsightList(elementId, data) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const entries = Object.entries(data || {});
+
+    if (!entries.length) {
+        element.innerHTML = `<div class="analytics-empty">No data available.</div>`;
+        return;
+    }
+
+    element.innerHTML = entries.map(([label, value]) => `
+        <div class="analytics-list-item">
+            <span>${escapeHTML(label)}</span>
+            <strong>${escapeHTML(String(value))}</strong>
+        </div>
+    `).join("");
+}
+
+function renderDailyInsight(data) {
+    const element = document.getElementById("dailyAnalytics");
+    if (!element) return;
+
+    const entries = Object.entries(data || {}).sort((a, b) => b[0].localeCompare(a[0]));
+
+    if (!entries.length) {
+        element.innerHTML = `<div class="analytics-empty">No daily activity available.</div>`;
+        return;
+    }
+
+    element.innerHTML = entries.map(([date, stats]) => `
+        <div class="analytics-daily-item">
+            <div class="analytics-daily-date">${escapeHTML(date)}</div>
+            <div class="analytics-daily-stats">
+                <span>Queries <strong>${stats.total_queries ?? 0}</strong></span>
+                <span>Answered <strong>${stats.answered_queries ?? 0}</strong></span>
+                <span>Unanswered <strong>${stats.unanswered_queries ?? 0}</strong></span>
+                <span>Gaps <strong>${stats.knowledge_gaps ?? 0}</strong></span>
+            </div>
+        </div>
+    `).join("");
+}
+
+function renderCommonQueries(data) {
+    const element = document.getElementById("commonQueriesAnalytics");
+    if (!element) return;
+
+    const queries = Array.isArray(data) ? data : [];
+
+    if (!queries.length) {
+        element.innerHTML = `<div class="analytics-empty">No repeated queries available.</div>`;
+        return;
+    }
+
+    element.innerHTML = queries.slice(0, 8).map(item => `
+        <div class="analytics-list-item">
+            <span>${escapeHTML(item.query || "Unknown query")}</span>
+            <strong>${item.count ?? 0}</strong>
+        </div>
+    `).join("");
+}
+
+function renderRetrievalInsight(data) {
+    const retrieved = document.getElementById("retrievedDocumentsMetric");
+    const average = document.getElementById("averageDistanceMetric");
+    const best = document.getElementById("bestDistanceMetric");
+    const worst = document.getElementById("worstDistanceMetric");
+
+    if (!retrieved) return;
+
+    retrieved.innerText = data?.total_retrieved_documents ?? 0;
+    average.innerText = Number(data?.average_retrieval_distance ?? 0).toFixed(4);
+    best.innerText = data?.best_retrieval_distance == null ? "N/A" : Number(data.best_retrieval_distance).toFixed(4);
+    worst.innerText = data?.worst_retrieval_distance == null ? "N/A" : Number(data.worst_retrieval_distance).toFixed(4);
+}
+
+function renderSystemInsight(summary, lowConfidenceData) {
+    const answerRate = document.getElementById("answerRateMetric");
+    const confidence = document.getElementById("averageConfidenceMetric");
+    const responseTime = document.getElementById("averageResponseTimeMetric");
+    const lowConfidence = document.getElementById("lowConfidenceMetric");
+
+    if (!answerRate) return;
+
+    answerRate.innerText = `${Number(summary?.answer_rate ?? 0).toFixed(2)}%`;
+    confidence.innerText = Number(summary?.average_confidence ?? 0).toFixed(2);
+    responseTime.innerText = `${Number(summary?.average_response_time ?? 0).toFixed(2)} s`;
+    lowConfidence.innerText = Array.isArray(lowConfidenceData) ? lowConfidenceData.length : 0;
+}
+
+async function loadAnalyticsInsights(summaryData) {
+    try {
+        const [queryTypesResponse, domainsResponse, retrievalResponse, dailyResponse, commonResponse, lowConfidenceResponse] = await Promise.all([
+            fetch(`${API_URL}/analytics/query-types`),
+            fetch(`${API_URL}/analytics/domains`),
+            fetch(`${API_URL}/analytics/retrieval`),
+            fetch(`${API_URL}/analytics/daily`),
+            fetch(`${API_URL}/analytics/common-queries`),
+            fetch(`${API_URL}/analytics/low-confidence`)
+        ]);
+
+        if (!queryTypesResponse.ok || !domainsResponse.ok || !retrievalResponse.ok || !dailyResponse.ok || !commonResponse.ok || !lowConfidenceResponse.ok) {
+            throw new Error("Analytics insight endpoint failed");
+        }
+
+        const queryTypes = await queryTypesResponse.json();
+        const domains = await domainsResponse.json();
+        const retrieval = await retrievalResponse.json();
+        const daily = await dailyResponse.json();
+        const common = await commonResponse.json();
+        const lowConfidence = await lowConfidenceResponse.json();
+
+        renderInsightList("queryTypeAnalytics", queryTypes.query_type_statistics || {});
+        renderInsightList("domainAnalytics", domains.domain_statistics || {});
+        renderRetrievalInsight(retrieval);
+        renderSystemInsight(summaryData, lowConfidence.low_confidence_queries || []);
+        renderDailyInsight(daily.daily_statistics || {});
+        renderCommonQueries(common.common_queries || []);
+    } catch (error) {
+        console.error("Analytics insight error:", error);
+    }
+}
+
+/* =========================================================
+   M4.1 ANALYTICS
+   ========================================================= */
+
+async function loadAnalytics() {
+
+    analyticsStatus.innerText =
+        "Loading analytics...";
+
+    try {
+
+        const [
+            analyticsResponse,
+            summaryResponse,
+            gapsResponse
+        ] =
+            await Promise.all([
+
+                fetch(
+                    `${API_URL}/analytics`
+                ),
+
+                fetch(
+                    `${API_URL}/analytics/summary`
+                ),
+
+                fetch(
+                    `${API_URL}/analytics/knowledge-gaps`
+                )
+
+            ]);
+
+
+        if (
+            !analyticsResponse.ok ||
+            !summaryResponse.ok ||
+            !gapsResponse.ok
+        ) {
+
+            throw new Error(
+                "Analytics endpoint failed"
+            );
+        }
+
+
+        const analyticsData =
+            await analyticsResponse.json();
+
+        const summaryData =
+            await summaryResponse.json();
+
+        const gapsData =
+            await gapsResponse.json();
+
+
+        /*
+         * Backend may return either:
+         * an array directly
+         * or an object containing records.
+         */
+
+        if (
+            Array.isArray(
+                analyticsData
+            )
+        ) {
+
+            analyticsRecords =
+                analyticsData;
+
+        } else {
+
+            analyticsRecords =
+                analyticsData.records ||
+                analyticsData.analytics ||
+                analyticsData.data ||
+                [];
+
+        }
+
+
+        /*
+         * Summary values
+         */
+
+        totalQueries.innerText =
+            summaryData.total_queries ??
+            0;
+
+        answeredQueries.innerText =
+            summaryData.answered_queries ??
+            0;
+
+        unansweredQueries.innerText =
+            summaryData.unanswered_queries ??
+            0;
+
+        clarificationQueries.innerText =
+            summaryData.clarification_queries ??
+            0;
+
+        knowledgeGapCount.innerText =
+            summaryData.knowledge_gaps ??
+            0;
+
+
+        renderAnalyticsTable();
+
+        renderKnowledgeGaps(
+            gapsData
+        );
+
+        await loadAnalyticsInsights(
+            summaryData
+        );
+
+
+        analyticsStatus.innerText =
+            `✓ Analytics updated — ${analyticsRecords.length} query records loaded.`;
+
+
+    } catch (error) {
+
+        console.error(
+            "Analytics error:",
+            error
+        );
+
+        analyticsStatus.innerText =
+            "❌ Unable to load analytics. Make sure FastAPI is running.";
+
+        analyticsTableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="analytics-empty">
+
+                        Analytics data could not be loaded.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        knowledgeGapList.innerHTML = `
+
+            <div class="analytics-empty">
+
+                Knowledge-gap data could not be loaded.
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   M4.1 FILTER
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".analytics-filter"
+    )
+    .forEach(
+        function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(
+                            ".analytics-filter"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
+
+                    this.classList.add(
+                        "active"
+                    );
+
+                    currentAnalyticsFilter =
+                        this.dataset.filter;
+
+                    renderAnalyticsTable();
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   M4.1 REFRESH BUTTON
+   ========================================================= */
+
+refreshAnalyticsButton.addEventListener(
+    "click",
+    loadAnalytics
+);
+
+
+/* =========================================================
+   M4.1 FILTER LOGIC
+   ========================================================= */
+
+function filterAnalyticsRecords() {
+
+    if (
+        currentAnalyticsFilter ===
+        "all"
+    ) {
+
+        return analyticsRecords;
+    }
+
+
+    return analyticsRecords.filter(
+        function(record) {
+
+            const answered =
+                Boolean(
+                    record.answered
+                );
+
+            const gap =
+                Boolean(
+                    record.knowledge_gap
+                );
+
+            const queryType =
+                String(
+                    record.query_type ||
+                    ""
+                )
+                .toLowerCase();
+
+
+            if (
+                currentAnalyticsFilter ===
+                "answered"
+            ) {
+
+                return answered;
+            }
+
+
+            if (
+                currentAnalyticsFilter ===
+                "unanswered"
+            ) {
+
+                return !answered;
+            }
+
+
+            if (
+                currentAnalyticsFilter ===
+                "gap"
+            ) {
+
+                return gap;
+            }
+
+
+            if (
+                currentAnalyticsFilter ===
+                "factual"
+            ) {
+
+                return queryType
+                    .includes(
+                        "factual"
+                    );
+            }
+
+
+            if (
+                currentAnalyticsFilter ===
+                "procedural"
+            ) {
+
+                return queryType
+                    .includes(
+                        "procedural"
+                    );
+            }
+
+
+            if (
+                currentAnalyticsFilter ===
+                "ambiguous"
+            ) {
+
+                return queryType
+                    .includes(
+                        "ambiguous"
+                    );
+            }
+
+
+            return true;
+        }
+    );
+}
+
+
+/* =========================================================
+   M4.1 ANALYTICS TABLE
+   ========================================================= */
+
+function renderAnalyticsTable() {
+
+    const records =
+        filterAnalyticsRecords();
+
+
+    if (
+        !records.length
+    ) {
+
+        analyticsTableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="analytics-empty">
+
+                        No analytics records found
+                        for this filter.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    /*
+     * Show newest records first.
+     */
+
+    const sortedRecords =
+        [...records].reverse();
+
+
+    analyticsTableBody.innerHTML =
+        sortedRecords
+            .map(
+                function(record) {
+
+                    const timestamp =
+                        formatAnalyticsTime(
+                            record.timestamp
+                        );
+
+
+                    const query =
+                        record.query ||
+                        "N/A";
+
+
+                    const queryType =
+                        record.query_type ||
+                        "N/A";
+
+
+                    const confidence =
+                        Number(
+                            record.confidence
+                        );
+
+
+                    const confidenceText =
+                        isNaN(
+                            confidence
+                        )
+
+                            ? "N/A"
+
+                            : confidence.toFixed(
+                                2
+                            );
+
+
+                    const answered =
+                        Boolean(
+                            record.answered
+                        );
+
+
+                    const knowledgeGap =
+                        Boolean(
+                            record.knowledge_gap
+                        );
+
+
+                    const documents =
+                        Array.isArray(
+                            record.retrieved_documents
+                        )
+
+                            ? record
+                                .retrieved_documents
+                                .length
+
+                            : 0;
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(
+                                    timestamp
+                                )}
+                            </td>
+
+
+                            <td>
+
+                                <div
+                                    class="analytics-query"
+                                >
+
+                                    ${escapeHTML(
+                                        query
+                                    )}
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="analytics-type"
+                                >
+
+                                    ${escapeHTML(
+                                        queryType
+                                    )}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="analytics-confidence"
+                                >
+
+                                    ${confidenceText}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                ${
+                                    answered
+
+                                    ? `<span class="analytics-answered">
+                                            ✓ Answered
+                                       </span>`
+
+                                    : `<span class="analytics-unanswered">
+                                            ✕ Unanswered
+                                       </span>`
+                                }
+
+                            </td>
+
+
+                            <td>
+
+                                ${
+                                    knowledgeGap
+
+                                    ? `<span class="analytics-gap">
+                                            GAP DETECTED
+                                       </span>`
+
+                                    : `<span class="analytics-no-gap">
+                                            ✓ No gap
+                                       </span>`
+                                }
+
+                            </td>
+
+
+                            <td>
+
+                                ${documents}
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   M4.1 KNOWLEDGE GAPS
+   ========================================================= */
+
+function renderKnowledgeGaps(
+    gapsData
+) {
+
+    let gaps = [];
+
+
+    if (
+        Array.isArray(
+            gapsData
+        )
+    ) {
+
+        gaps =
+            gapsData;
+
+    } else {
+
+        gaps =
+            gapsData.gaps ||
+            gapsData.knowledge_gaps ||
+            gapsData.data ||
+            [];
+
+    }
+
+
+    if (
+        !gaps.length
+    ) {
+
+        knowledgeGapList.innerHTML = `
+
+            <div class="analytics-empty">
+
+                ✓ No knowledge gaps detected.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /*
+     * Count repeated questions.
+     */
+
+    const gapMap =
+        new Map();
+
+
+    gaps.forEach(
+        function(gap) {
+
+            const query =
+                String(
+                    gap.query ||
+                    "Unknown query"
+                );
+
+
+            if (
+                gapMap.has(
+                    query
+                )
+            ) {
+
+                const current =
+                    gapMap.get(
+                        query
+                    );
+
+                current.count++;
+
+            } else {
+
+                gapMap.set(
+                    query,
+                    {
+                        query: query,
+                        queryType:
+                            gap.query_type ||
+                            "N/A",
+                        count: 1
+                    }
+                );
+            }
+
+        }
+    );
+
+
+    const groupedGaps =
+        Array.from(
+            gapMap.values()
+        )
+        .sort(
+            function(a, b) {
+
+                return b.count -
+                    a.count;
+
+            }
+        );
+
+
+    knowledgeGapList.innerHTML =
+        groupedGaps
+            .map(
+                function(item) {
+
+                    return `
+
+                        <div
+                            class="knowledge-gap-item"
+                        >
+
+                            <div
+                                class="knowledge-gap-query"
+                            >
+
+                                ${escapeHTML(
+                                    item.query
+                                )}
+
+                            </div>
+
+                            <div
+                                class="knowledge-gap-type"
+                            >
+
+                                ${escapeHTML(
+                                    item.queryType
+                                )}
+
+                                ·
+
+                                ${item.count}
+                                occurrence${
+                                    item.count === 1
+                                        ? ""
+                                        : "s"
+                                }
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   M4.1 TIME FORMAT
+   ========================================================= */
+
+function formatAnalyticsTime(
+    timestamp
+) {
+
+    if (!timestamp) {
+
+        return "N/A";
+    }
+
+
+    const date =
+        new Date(
+            timestamp
+        );
+
+
+    if (
+        isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(
+            timestamp
+        );
+    }
+
+
+    return date.toLocaleString();
+}
+
+
+/* =========================================================
+   MICROPHONE & REAL-TIME SPEECH TO TEXT
+   ========================================================= */
+
+let mediaRecorder = null;
+let audioChunks = [];
+let isListening = false;
+let isStartingVoice = false;
+let manualStopped = false;
+let silenceTimer = null;
+let recognition = null;
+let usingWebSpeech = false;
+let finalTranscript = "";
+
+function resetVoiceUI() {
+    isListening = false;
+    isStartingVoice = false;
+    usingWebSpeech = false;
+    manualStopped = false;
+    if (silenceTimer) {
+        clearTimeout(silenceTimer);
+        silenceTimer = null;
+    }
+    if (voiceButton) {
+        voiceButton.innerText = "🎙";
+        voiceButton.classList.remove("recording");
+        voiceButton.title = "Click to speak your question";
+    }
+    if (queryInput && !queryInput.value.trim()) {
+        queryInput.placeholder = "Type your question or use the microphone...";
+    }
+}
+
+function stopAllVoice() {
+    manualStopped = true;
+    if (silenceTimer) {
+        clearTimeout(silenceTimer);
+        silenceTimer = null;
+    }
+    if (recognition) {
+        try {
+            recognition.stop();
+        } catch (e) {}
+    }
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        try {
+            mediaRecorder.stop();
+        } catch (e) {}
+    }
+}
+
+voiceButton.addEventListener("click", async function() {
+    // Prevent rapid clicks from colliding
+    if (isStartingVoice) {
+        return;
+    }
+
+    // Clicking while listening stops and gets the answer immediately
+    if (isListening) {
+        stopAllVoice();
+        return;
+    }
+
+    // Start fresh voice session
+    await startVoiceInput();
+});
+
+async function startVoiceInput() {
+    // Clean up any stale instances
+    if (recognition) {
+        try { recognition.abort(); } catch (e) {}
+        recognition = null;
+    }
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        try { mediaRecorder.stop(); } catch (e) {}
+        mediaRecorder = null;
+    }
+    if (silenceTimer) {
+        clearTimeout(silenceTimer);
+        silenceTimer = null;
+    }
+
+    isStartingVoice = true;
+    isListening = true;
+    manualStopped = false;
+    finalTranscript = "";
+
+    // Clear previous question immediately for a fresh question
+    if (queryInput) {
+        queryInput.value = "";
+        queryInput.placeholder = "🎙 Listening live... Speak now. Click ⏹ when done.";
+    }
+
+    if (voiceButton) {
+        voiceButton.innerText = "⏹";
+        voiceButton.classList.add("recording");
+        voiceButton.title = "Click to stop and get answer";
+    }
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+        try {
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = navigator.language || "en-US";
+
+            recognition.onstart = function() {
+                isStartingVoice = false;
+                usingWebSpeech = true;
+            };
+
+            // REAL-TIME STREAMING: Updates words on screen instantly as you speak
+            recognition.onresult = function(event) {
+                let interimTranscript = "";
+                let newFinal = "";
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const piece = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        newFinal += piece + " ";
+                    } else {
+                        interimTranscript += piece;
+                    }
+                }
+
+                if (newFinal) {
+                    finalTranscript += newFinal;
+                }
+
+                const currentText = (finalTranscript + interimTranscript).trim();
+                if (queryInput) {
+                    queryInput.value = currentText;
+                    queryInput.scrollTop = queryInput.scrollHeight;
+                }
+
+                // Generous 3.5s auto-submit timer after speech ends
+                if (silenceTimer) {
+                    clearTimeout(silenceTimer);
+                }
+                if (currentText.length > 0) {
+                    silenceTimer = setTimeout(async function() {
+                        if (isListening && !manualStopped) {
+                            stopAllVoice();
+                        }
+                    }, 3500);
+                }
+            };
+
+            recognition.onend = async function() {
+                isStartingVoice = false;
+
+                // User clicked stop or auto-timer finished
+                if (manualStopped) {
+                    resetVoiceUI();
+                    if (queryInput && queryInput.value.trim()) {
+                        queryInput.placeholder = "Question captured. Getting AI answer...";
+                        await askQuestion();
+                    }
+                    return;
+                }
+
+                // Browser silence timeout
+                if (isListening) {
+                    if (queryInput && queryInput.value.trim()) {
+                        // User has spoken words, submit and get answer
+                        resetVoiceUI();
+                        queryInput.placeholder = "Question captured. Getting AI answer...";
+                        await askQuestion();
+                    } else {
+                        // No words yet: smoothly restart recognition without dropping
+                        try {
+                            recognition.start();
+                        } catch (e) {
+                            resetVoiceUI();
+                        }
+                    }
+                } else {
+                    resetVoiceUI();
+                }
+            };
+
+            recognition.onerror = function(event) {
+                isStartingVoice = false;
+                console.warn("SpeechRecognition event:", event.error);
+
+                if (event.error === "not-allowed") {
+                    alert("Microphone permission was denied. Please allow microphone access in your browser address bar.");
+                    resetVoiceUI();
+                } else if (event.error === "no-speech") {
+                    // Do nothing - onend will restart if isListening is still true
+                } else if (event.error === "network") {
+                    console.warn("Speech network issue, falling back to local Whisper...");
+                    resetVoiceUI();
+                    startWhisperRecording();
+                } else if (event.error === "aborted") {
+                    // Normal stop
+                } else {
+                    resetVoiceUI();
+                }
+            };
+
+            recognition.start();
+            return;
+
+        } catch (error) {
+            console.warn("SpeechRecognition start failed, using Whisper fallback:", error);
+            resetVoiceUI();
+        }
+    }
+
+    await startWhisperRecording();
+}
+
+async function startWhisperRecording() {
+    try {
+        isStartingVoice = false;
+        isListening = true;
+        usingWebSpeech = false;
+        manualStopped = false;
+
+        if (queryInput) {
+            queryInput.value = "";
+            queryInput.placeholder = "🎙 Recording voice... Click ⏹ when finished.";
+        }
+        if (voiceButton) {
+            voiceButton.innerText = "⏹";
+            voiceButton.classList.add("recording");
+            voiceButton.title = "Click to stop recording";
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
+        });
+
+        audioChunks = [];
+        mediaRecorder = new MediaRecorder(stream, {
+            mimeType: MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+                ? "audio/webm;codecs=opus"
+                : "audio/webm"
+        });
+
+        mediaRecorder.ondataavailable = function(event) {
+            if (event.data.size > 0) {
+                audioChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = async function() {
+            stream.getTracks().forEach(track => track.stop());
+            resetVoiceUI();
+            const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+            if (audioBlob.size > 1000) {
+                await sendAudio(audioBlob);
+            } else {
+                if (result) {
+                    result.innerHTML = `
+                        <div class="empty-result">
+                            <span>⚠</span>
+                            <p>No speech detected. Please speak into the mic and click ⏹ when done.</p>
+                        </div>
+                    `;
+                }
+            }
+        };
+
+        mediaRecorder.start(250);
+
+    } catch (error) {
+        console.error("Microphone error:", error);
+        resetVoiceUI();
+        alert("Please allow microphone access in your browser to use voice input.");
+    }
+}
+
+
+/* =========================================================
+   SEND AUDIO
+   ========================================================= */
+
+async function sendAudio(
+    audioBlob
+) {
+
+    queryInput.placeholder =
+        "Converting speech to text...";
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "file",
+        audioBlob,
+        "voice_input.webm"
+    );
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/transcribe`,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Transcription failed"
+            );
+        }
+
+        queryInput.value =
+            data.text || "";
+
+        queryInput.placeholder =
+            "Type your question or use the microphone...";
+
+
+        if (
+            data.text &&
+            data.text.trim()
+        ) {
+
+            await askQuestion();
+
+        } else {
+
+            result.innerHTML = `
+
+                <div
+                    class="empty-result"
+                >
+
+                    <span>
+                        ⚠
+                    </span>
+
+                    <p>
+                        No speech detected.
+                        Please try again.
+                    </p>
+
+                </div>
+
+            `;
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Speech error:",
+            error
+        );
+
+        queryInput.placeholder =
+            "Type your question or use the microphone...";
+
+        result.innerHTML = `
+
+            <div
+                class="empty-result"
+            >
+
+                <span>
+                    ⚠
+                </span>
+
+                <p>
+                    Speech-to-text failed.
+                    Please try again.
+                </p>
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   TEXT TO SPEECH
+   ========================================================= */
+
+function speakText(text) {
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        return;
+    }
+
+    stopSpeech();
+
+    const cleanText =
+        text
+            .replace(
+                /<[^>]*>/g,
+                ""
+            )
+            .trim();
+
+    if (!cleanText) {
+
+        return;
+    }
+
+    speechQueue =
+        cleanText
+            .match(
+                /[^.!?]+[.!?]+|[^.!?]+$/g
+            )
+            ?.map(
+                sentence =>
+                    sentence.trim()
+            ) || [cleanText];
+
+    speechIndex =
+        0;
+
+    isSpeechPaused =
+        false;
+
+    speakNext();
+}
+
+
+function speakNext() {
+
+    if (
+        speechIndex >=
+        speechQueue.length
+    ) {
+
+        currentSpeech =
+            null;
+
+        return;
+    }
+
+    if (isSpeechPaused) {
+
+        return;
+    }
+
+    const sentence =
+        speechQueue[
+            speechIndex
+        ];
+
+    currentSpeech =
+        new SpeechSynthesisUtterance(
+            sentence
+        );
+
+    const selectedVoice =
+        voiceSelect.value;
+
+    const voices =
+        speechSynthesis.getVoices();
+
+    const voice =
+        voices.find(
+            item =>
+                item.name ===
+                selectedVoice
+        );
+
+    if (voice) {
+
+        currentSpeech.voice =
+            voice;
+
+        currentSpeech.lang =
+            voice.lang;
+
+    } else {
+
+        currentSpeech.lang =
+            "en-US";
+    }
+
+    currentSpeech.rate =
+        1;
+
+    currentSpeech.pitch =
+        1;
+
+    currentSpeech.volume =
+        1;
+
+
+    currentSpeech.onend =
+        function() {
+
+            if (
+                !isSpeechPaused
+            ) {
+
+                speechIndex++;
+
+                speakNext();
+            }
+        };
+
+
+    speechSynthesis.speak(
+        currentSpeech
+    );
+}
+
+
+function startSpeechFromResult() {
+
+    if (!currentAnswerText) {
+
+        return;
+    }
+
+    speakText(
+        currentAnswerText
+    );
+}
+
+
+function pauseSpeech() {
+
+    if (
+        speechSynthesis.speaking
+    ) {
+
+        isSpeechPaused =
+            true;
+
+        speechSynthesis.pause();
+    }
+}
+
+
+function resumeSpeech() {
+
+    if (!isSpeechPaused) {
+
+        return;
+    }
+
+    isSpeechPaused =
+        false;
+
+    if (
+        speechSynthesis.paused
+    ) {
+
+        speechSynthesis.resume();
+
+    } else {
+
+        speakNext();
+    }
+}
+
+
+function stopSpeech() {
+
+    if (
+        "speechSynthesis" in window
+    ) {
+
+        speechSynthesis.cancel();
+    }
+
+    speechQueue =
+        [];
+
+    speechIndex =
+        0;
+
+    isSpeechPaused =
+        false;
+
+    currentSpeech =
+        null;
+}
+
+
+/* =========================================================
+   VOICES
+   ========================================================= */
+
+function loadVoices() {
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        return;
+    }
+
+    const voices =
+        speechSynthesis.getVoices();
+
+    voiceSelect.innerHTML =
+        "";
+
+    const englishVoices =
+        voices.filter(
+            voice =>
+                voice.lang
+                    .toLowerCase()
+                    .startsWith("en")
+        );
+
+    const availableVoices =
+        englishVoices.length
+            ? englishVoices
+            : voices;
+
+    availableVoices.forEach(
+        function(voice) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                voice.name;
+
+            option.textContent =
+                `${voice.name} (${voice.lang})`;
+
+            voiceSelect.appendChild(
+                option
+            );
+        }
+    );
+}
+
+
+speechSynthesis.onvoiceschanged =
+    loadVoices;
+
+
+loadVoices();
+
+
+/* =========================================================
+   TTS BUTTONS
+   ========================================================= */
+
+document
+    .getElementById(
+        "startSpeechButton"
+    )
+    .addEventListener(
+        "click",
+        startSpeechFromResult
+    );
+
+
+document
+    .getElementById(
+        "pauseSpeechButton"
+    )
+    .addEventListener(
+        "click",
+        pauseSpeech
+    );
+
+
+document
+    .getElementById(
+        "resumeSpeechButton"
+    )
+    .addEventListener(
+        "click",
+        resumeSpeech
+    );
+
+
+document
+    .getElementById(
+        "stopSpeechButton"
+    )
+    .addEventListener(
+        "click",
+        stopSpeech
+    );
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        String(text ?? "");
+
+    return div.innerHTML;
+}
+
+
+/* =========================================================
+   M4.1 INITIAL LOAD
+   ========================================================= */
+
+loadAnalytics();
+
+</script>
+
+</body>
+
+</html>
