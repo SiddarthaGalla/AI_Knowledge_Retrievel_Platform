@@ -85,6 +85,20 @@ def health():
 
 
 # ===============================
+# VERSION
+# ===============================
+
+@app.get("/version")
+def version():
+
+    return {
+        "version": "v1.2.0-fastembed",
+        "engine": "fastembed-onnx"
+    }
+
+
+
+# ===============================
 # DOCUMENT UPLOAD & INDEXING
 # ===============================
 
