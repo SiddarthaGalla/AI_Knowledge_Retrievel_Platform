@@ -1,25 +1,35 @@
-import av
-
-# PyAV 19.x compatibility fix for faster-whisper
-_orig_av_open = av.open
-def _compatible_av_open(*args, **kwargs):
-    kwargs.pop("metadata_errors", None)
-    return _orig_av_open(*args, **kwargs)
-av.open = _compatible_av_open
-
 from pathlib import Path
-from faster_whisper import WhisperModel
 
-model = WhisperModel(
-    "base",
-    device="cpu",
-    compute_type="int8"
-)
+_whisper_model = None
+
+
+def _get_whisper_model():
+    global _whisper_model
+    if _whisper_model is None:
+        try:
+            import av
+            _orig_av_open = av.open
+
+            def _compatible_av_open(*args, **kwargs):
+                kwargs.pop("metadata_errors", None)
+                return _orig_av_open(*args, **kwargs)
+
+            av.open = _compatible_av_open
+        except Exception:
+            pass
+
+        from faster_whisper import WhisperModel
+        _whisper_model = WhisperModel(
+            "tiny",
+            device="cpu",
+            compute_type="int8"
+        )
+    return _whisper_model
 
 
 def transcribe_audio(audio_file):
 
-    # Try Groq Whisper cloud first if API key is configured
+    # Try Groq Whisper cloud first if API key is configured (Uses 0 MB server RAM!)
     try:
         from app.config import GROQ_API_KEY
         if GROQ_API_KEY:
@@ -39,7 +49,8 @@ def transcribe_audio(audio_file):
     except Exception as e:
         print(f"[Warning] Groq Whisper failed: {e}. Falling back to local Whisper.")
 
-    # Local faster-whisper fallback
+    # Local fallback (only loaded on-demand if Groq is unavailable)
+    model = _get_whisper_model()
     segments, info = model.transcribe(
         audio_file,
         language="en",
